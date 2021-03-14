@@ -16,8 +16,8 @@ browserify <- function(js_file) {
   f=system("node gen_main.js", intern=TRUE)
   h=system("node gen_html.js", intern=TRUE)
   m=c(imp, f)
-  write(m, "main.js")
-  write(h, "index.html")
+  writeLines(m, "main.js")
+  writeLines(h, "index.html")
   
   # CALLS TO BROWSERIFY
   system("browserify --debug main.js -o bundle.js")
