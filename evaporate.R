@@ -20,7 +20,5 @@ evaporate <- function(pojo) {
   
   # Finally, round out left-over java syntax from JSweet
   jsweet_filter(jsOut)
-  print(paste(pojo, "has now been transpiled into", jsOut))
+  return(jsOut)
 }
-  
-evaporate("gbm_pojo_test.java")
