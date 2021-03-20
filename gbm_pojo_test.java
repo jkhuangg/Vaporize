@@ -17,12 +17,8 @@
      (Note:  Try java argument -XX:+PrintCompilation to show runtime JIT compiler behavior.)
 */
 import java.util.Map;
-import hex.genmodel.GenModel;
-import hex.genmodel.annotations.ModelPojo;
 
-@ModelPojo(name="gbm_pojo_test", algorithm="gbm")
-public class gbm_pojo_test extends GenModel {
-  public hex.ModelCategory getModelCategory() { return hex.ModelCategory.Binomial; }
+public class gbm_pojo_test {
 
   public boolean isSupervised() { return true; }
   public int nfeatures() { return 11; }
@@ -53,7 +49,6 @@ public class gbm_pojo_test extends GenModel {
   // Class distribution used for model building
   public static final double[] MODEL_CLASS_DISTRIB = {0.47494201646277684,0.5250579835372231};
 
-  public gbm_pojo_test() { super(NAMES,DOMAINS,"IsDepDelayed"); }
   public String getUUID() { return Long.toString(916966837873556288L); }
 
   // Pass in data in a double[], pre-aligned to the Model's requirements.
@@ -75,7 +70,7 @@ public class gbm_pojo_test extends GenModel {
     preds[2] = preds[1] + 0.10031597534710991;
     preds[2] = 1./(1. + Math.min(1e19, Math.exp(-(preds[2]))));
     preds[1] = 1.0-preds[2];
-    preds[0] = hex.genmodel.GenModel.getPrediction(preds, PRIOR_CLASS_DISTRIB, data, 0.44517145663915264);
+    preds[0] = GenModel.getPrediction(preds, PRIOR_CLASS_DISTRIB, data, 0.44517145663915264);
     return preds;
   }
 }

@@ -26,6 +26,4 @@ pojo_filter <- function(pojo_file) {
   }
   
   writeLines(np, pojo_file)
-  
 }
-

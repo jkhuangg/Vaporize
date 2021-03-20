@@ -31,9 +31,7 @@ jsweet_filter <- function(jsweet_file) {
     x=x+1
   }
   
+  fjs=c(fjs, paste0("exports.",js_class,"=",js_class,";"))
   writeLines(fjs, jsweet_file)
-  write(paste0("exports.",js_class,"=",js_class,";"),
-        file=jsweet_file,
-        append=TRUE)
-} 
+}
 
