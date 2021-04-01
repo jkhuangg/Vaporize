@@ -1,3 +1,25 @@
+sed_filter <- function(file, exclude_term) {
+  
+  op=readLines(file)
+  np=c()
+  
+  x=1
+  while (!is.na(op[x])) {
+    if (str_detect(op[x], exclude_term)) {
+      x=x+1
+      next
+    }
+    
+    new_line=op[x]
+    np=c(np, new_line)
+    x=x+1
+  }
+  
+  writeLines(np, file)
+}
+
+
+
 browserify <- function(js_file) {
   bund=any(str_detect(readLines("pom.xml"), "<bundle>true</bundle>"))
   # EXTRACT CLASS NAME
@@ -26,13 +48,15 @@ browserify <- function(js_file) {
   write(js_txt, "bundle.js", append=TRUE)
   write(m, "bundle.js", append=TRUE)
   write(h, "index.html")
-  system("sed -i \"/exports/d\" bundle.js")
-  system("sed -i \"/require/d\" bundle.js")
+  
+  # FILTER NODE REQUIREMENTS
+  sed_filter("bundle.js", "exports")
+  sed_filter("bundle.js", "require")
+  sed_filter("gen_html.js", "require")
+  sed_filter("gen_main.js", "require")
 
   # BROWSERIFY
-  system("sed -i \"/require/d\" gen_main.js")
-  system("sed -i \"/require/d\" gen_html.js")
-  system("mkdir browser")
-  system("mv index.html browser/")
-  system("mv bundle.js browser/")
+  dir.create("browser")
+  file.rename(from="index.html", to="browser/index.html")
+  file.rename(from="bundle.js" , to="browser/bundle.js")
 }

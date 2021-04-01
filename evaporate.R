@@ -12,6 +12,8 @@ evaporate <- function(pojo) {
     dir.create("src")
     dir.create("src/main")
     dir.create("src/main/java")
+  } else {
+    unlink("src/main/java/*")
   }
   
   # Get name of file when it is in JavaScript
@@ -21,15 +23,15 @@ evaporate <- function(pojo) {
   pojo_filter(pojo)
   
   # bash commands to prepare & call JSweet
-  system("rm src/main/java/*")
-  system(paste("cp", pojo, "src/main/java"))
-  system("cp GenMod/GenModel.java src/main/java")
+  file.copy(pojo, "src/main/java")
+  file.copy("GenMod/GenModel.java", "src/main/java")
+  
+  # call jsweet
   system("mvn generate-sources")
   
   if (bund) {
     if (file.exists("target/js/bundle.js")) {
-      system("mv target/js/bundle.js .")
-      system(paste("mv bundle.js", jsOut))
+      file.rename(from="target/js/bundle.js", to=jsOut)
     } else {
       print("Maven did not compiled correctly")
     }
@@ -37,8 +39,9 @@ evaporate <- function(pojo) {
     system("mv target/js/* .")
   }
   
-  system("rm -rf target/")
-  system("rm -r src/main/java/*")
+  # clean up
+  unlink("target", recursive=TRUE)
+  unlink("src/main/java/*")
   
   # Finally, round out left-over java syntax from JSweet
   jsweet_filter(jsOut)
