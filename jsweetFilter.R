@@ -9,6 +9,9 @@ jvsc_doubleToBits='(function (f) { var buf = new ArrayBuffer(4); (new Float32Arr
 java_arrFill='java.util.Arrays.fill(preds, 0);'
 
 jsweet_filter <- function(jsweet_file) {
+
+  bund=any(str_detect(readLines("pom.xml"), "<bundle>true</bundle>"))
+  
   # GET CLASS
   # if user passes in path to file like path/to/jsweet.js
   # this will just return 'jsweet' to js_class
